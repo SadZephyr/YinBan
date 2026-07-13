@@ -15,6 +15,7 @@ MEMORY.md
 build/
 app/build/
 *.apk
+!历代稳定版/*.apk
 *.aab
 *.dex
 *.class
