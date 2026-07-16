@@ -51,4 +51,22 @@
     <!-- ═══════ 导航 ═══════ -->
     <color name="bottom_nav_selected">@color/primary</color>
     <color name="bottom_nav_unselected">@color/text_tertiary</color>
+
+    <!-- YinBan final redesign tokens, staged for later pages. -->
+    <color name="yb_color_primary">#5B5CEB</color>
+    <color name="yb_color_primary_pressed">#4949D8</color>
+    <color name="yb_color_primary_container">#EEF0FF</color>
+    <color name="yb_color_background">#F7F7FC</color>
+    <color name="yb_color_surface">#FFFFFF</color>
+    <color name="yb_color_surface_variant">#F1F2FA</color>
+    <color name="yb_color_text_primary">#101426</color>
+    <color name="yb_color_text_secondary">#73758A</color>
+    <color name="yb_color_border">#E2E5F2</color>
+    <color name="yb_color_status_connected">#20A66A</color>
+    <color name="yb_color_status_waiting">#D98200</color>
+    <color name="yb_color_status_offline">#8A8FA3</color>
+    <color name="yb_color_status_warning">#F2A51A</color>
+    <color name="yb_color_status_danger">#D92D2D</color>
+    <color name="yb_color_overlay">#66000000</color>
+    <color name="yb_color_video_placeholder">#F1F2FA</color>
 </resources>

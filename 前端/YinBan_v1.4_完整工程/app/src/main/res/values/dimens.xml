@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- YinBan final redesign spacing tokens. -->
+    <dimen name="yb_spacing_4">4dp</dimen>
+    <dimen name="yb_spacing_8">8dp</dimen>
+    <dimen name="yb_spacing_12">12dp</dimen>
+    <dimen name="yb_spacing_16">16dp</dimen>
+    <dimen name="yb_spacing_20">20dp</dimen>
+    <dimen name="yb_spacing_24">24dp</dimen>
+    <dimen name="yb_spacing_32">32dp</dimen>
+    <dimen name="yb_spacing_page_horizontal">20dp</dimen>
+    <dimen name="yb_spacing_card_padding">20dp</dimen>
+
+    <!-- YinBan final redesign radius tokens. -->
+    <dimen name="yb_radius_small">8dp</dimen>
+    <dimen name="yb_radius_medium">14dp</dimen>
+    <dimen name="yb_radius_large">18dp</dimen>
+    <dimen name="yb_radius_button">14dp</dimen>
+    <dimen name="yb_radius_input">14dp</dimen>
+    <dimen name="yb_radius_dialog">16dp</dimen>
+    <dimen name="yb_radius_video">18dp</dimen>
+    <dimen name="yb_radius_video_container">18dp</dimen>
+
+    <!-- YinBan final redesign size tokens. -->
+    <dimen name="yb_size_button_height">54dp</dimen>
+    <dimen name="yb_size_input_height">56dp</dimen>
+    <dimen name="yb_size_bottom_nav_height">72dp</dimen>
+    <dimen name="yb_size_icon">24dp</dimen>
+    <dimen name="yb_size_entry_icon">28dp</dimen>
+    <dimen name="yb_size_avatar">64dp</dimen>
+    <dimen name="yb_size_logo_hero">96dp</dimen>
+    <dimen name="yb_size_status_label_height">28dp</dimen>
+    <dimen name="yb_size_call_control">64dp</dimen>
+    <dimen name="yb_size_sos_button_height">56dp</dimen>
+    <dimen name="yb_size_touch_target_min">48dp</dimen>
+    <dimen name="yb_size_video_min_height">360dp</dimen>
+</resources>
