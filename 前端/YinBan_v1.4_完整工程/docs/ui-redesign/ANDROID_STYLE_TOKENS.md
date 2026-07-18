@@ -1,6 +1,8 @@
 # YinBan Android Style Tokens
 
-本文件定义唯一、可直接映射到 Android XML 的 UI Token 体系。阶段 6 实施不得创建第二套主题，不得自行调整 HEX，不得新增未经定义的强调色。
+本文件定义唯一、可直接映射到 Android XML 的 UI Token 体系。阶段 6 实施不得创建第二品牌主题，不得自行调整 HEX，不得新增未经定义的强调色。
+
+6.1 已提交的浅色 Token 继续保留，不删除、不重命名、不改 HEX。T1 深色 Token 是同一 YinBan 品牌在登录后页面的深色表面体系，用于 6.3 及后续登录后页面，不用于推翻 6.2 登录三步。
 
 ## 1. 颜色 Token
 
@@ -23,6 +25,39 @@
 | `yb_color_overlay` | `#66000000` | 弹窗遮罩、模态背景 | 页面常驻背景 | 遮罩 |
 
 `yb_color_primary_pressed` 只用于按钮按压态，不得发展出新的品牌主题。
+
+## 1.1 T1 深色语义 Token
+
+以下为 T1 登录后深色沉浸体系的唯一实现值。不得提供第二套候选，不得由各页面自行发明透明度或替代 HEX。
+
+| Android Token | HEX | 用途 | 禁止用途 |
+| --- | --- | --- | --- |
+| `yb_color_night_background` | `#171247` | 登录后页面主背景，深靛紫基底 | 登录页浅色入口、实心按钮 |
+| `yb_color_night_background_deep` | `#0E0B2D` | 顶部/底部纵深、导航后方暗部 | 大段正文纯底且无卡片承载 |
+| `yb_color_night_background_highlight` | `#3B2A8F` | 静态柔和光感、背景局部高光 | 控件文字、状态语义色 |
+| `yb_color_night_surface` | `#33FFFFFF` | 常规半透明信息卡 | 透明到影响文字阅读 |
+| `yb_color_night_surface_strong` | `#4DFFFFFF` | 顶部状态卡、设备控制卡、重点信息卡 | 视频真实画面遮罩 |
+| `yb_color_night_surface_pressed` | `#5CFFFFFF` | 深色卡片和次级按钮按压态 | 常驻背景 |
+| `yb_color_night_border` | `#33FFFFFF` | 深色卡片轻描边、分割线 | 状态色替代 |
+| `yb_color_night_border_strong` | `#59FFFFFF` | 强调卡、选中边界、导航边界 | 大面积装饰线 |
+| `yb_color_night_text_primary` | `#F8F7FF` | 深色页面标题、主文案、按钮文字 | 禁用文字 |
+| `yb_color_night_text_secondary` | `#D9D5FF` | 次级说明、模块说明、底部导航未选中文案 | 主标题长期替代 |
+| `yb_color_night_text_muted` | `#A9A3CF` | 弱提示、房间号、离线辅助说明 | 关键状态 |
+| `yb_color_night_navigation` | `#CC15113B` | 深色半透明底部导航容器 | 页面全部卡片 |
+| `yb_color_night_overlay` | `#B3000000` | 深色弹窗遮罩、危险确认背景遮罩 | 常驻页面背景 |
+| `yb_color_night_switch_track` | `#66FFFFFF` | 深色页面开关关闭轨道 | 开关开启态 |
+| `yb_color_night_switch_thumb` | `#F8F7FF` | 深色页面开关拇指 | 文字或图标 tint |
+
+继续复用：
+
+- `yb_color_primary` `#5B5CEB`：主按钮、选中态、底部导航选中项、重点交互；
+- `yb_color_status_connected` `#20A66A`：在线、已连接；
+- `yb_color_status_waiting` `#D98200`：等待、处理中；
+- `yb_color_status_offline` `#8A8FA3`：离线、断开；
+- `yb_color_status_warning` `#F2A51A`：温和提醒；
+- `yb_color_status_danger` `#D92D2D`：SOS、危险确认、高风险。
+
+T1 深色页面中，`#5B5CEB` 是交互强调色，不是整页背景色；红色仍只用于 SOS、危险确认和真正高风险状态。
 
 ## 2. 间距 Token
 
@@ -101,13 +136,34 @@
 | `yb_bg_video_container` | 视频区域外层卡片背景，不替代真实 ImageView |
 | `yb_bg_video_placeholder` | 视频等待、加载、错误占位背景 |
 
+### T1 深色 Drawable 命名建议
+
+| 名称 | 用途 | 关键 Token |
+| --- | --- | --- |
+| `yb_bg_night_page` | 登录后深色页面背景，静态多层渐变 | `yb_color_night_background`、`yb_color_night_background_deep`、`yb_color_night_background_highlight` |
+| `yb_bg_night_card` | 常规半透明卡片 | `yb_color_night_surface`、`yb_color_night_border` |
+| `yb_bg_night_card_strong` | 顶部状态、主状态、设备控制等强调卡片 | `yb_color_night_surface_strong`、`yb_color_night_border_strong` |
+| `yb_bg_night_card_pressed` | 半透明卡片按压态 | `yb_color_night_surface_pressed` |
+| `yb_bg_night_device_card` | 摄像头 / 麦克风双行设备控制卡 | `yb_color_night_surface_strong`、`yb_color_night_border` |
+| `yb_bg_night_button_secondary` | 位置、状态、聊天次级入口 | `yb_color_night_surface`、`yb_color_night_border_strong` |
+| `yb_bg_night_bottom_nav` | T1 深色半透明底部导航 | `yb_color_night_navigation`、`yb_color_night_border` |
+| `yb_bg_night_button_sos` | 深色体系 SOS 按钮 | `yb_color_status_danger`，亮度和高度受控 |
+| `yb_bg_night_status_connected` | 深色已连接状态标签 | `yb_color_status_connected` + 半透明深底 |
+| `yb_bg_night_status_waiting` | 深色等待状态标签 | `yb_color_status_waiting` + 半透明深底 |
+| `yb_bg_night_status_offline` | 深色离线状态标签 | `yb_color_status_offline` + 半透明深底 |
+| `yb_bg_night_chat_self` | 自己消息紫色气泡 | `yb_color_primary` |
+| `yb_bg_night_chat_peer` | 对端深色半透明气泡 | `yb_color_night_surface_strong` |
+| `yb_bg_night_video_container` | 视频外层哑光容器，不覆盖真实 ImageView | `yb_color_night_surface`、`yb_color_night_border` |
+
+T1 光晕只能使用静态 gradient drawable，数量和面积受控；不得使用动态粒子、实时 blur、第三方模糊库或持续动画制造玻璃效果。
+
 视频区域颜色建议：
 
 | Token | HEX | 用途 | 禁止用途 |
 | --- | --- | --- | --- |
 | `yb_color_video_placeholder` | `#F1F2FA` | 视频等待、加载、错误占位背景 | 真实视频滤镜、遮罩 |
 
-视频区域允许浅色占位背景；真实视频显示时不得叠加强紫色滤镜、渐变、透明遮罩或持续装饰动画。不得定义或建议新的播放器实现。
+视频区域允许浅色或深色占位背景；真实视频显示时不得叠加强紫色滤镜、渐变、透明遮罩或持续装饰动画。不得定义或建议新的播放器实现。T1 深色视频占位允许使用 `yb_bg_night_video_container`，但真实 MJPEG 出现后不得在 `iv_video` 或 `iv_video_stream` 上叠加紫色滤镜、玻璃遮罩、光晕或渐变。
 
 禁止意义不明的名字：`final_bg`、`new_bg`、`purple2`、`card_new`、`test_style`。
 
@@ -219,3 +275,14 @@ Token 只能描述视频区域外层视觉，不得暗示新的播放实现。
 阶段 6.1 Token 实施不得修改上述任何文件。其他 UI 实施轮次也默认冻结上述文件，不得因添加 Token、样式、图标或容器而调整这些文件。如果发现视觉实施必须修改其中某个文件，必须停止当前任务并获得用户对具体文件的单独授权。
 
 不得以“只改 tint”“只改 visibility”“只改绑定”为理由自行修改 Activity。视频相关控件的动态 visibility 和生命周期逻辑继续由现有 Kotlin 控制。该清单与 `UI_DESIGN_SPEC.md` 和 `UI_ACCEPTANCE_CHECKLIST.md` 具有相同约束等级。
+
+## 11. T1 深色实施硬性限制
+
+- 不使用实时 blur。
+- 不使用第三方模糊库。
+- 不使用 RenderEffect 作为常规页面底层效果。
+- 半透明卡片不得透明到影响文字阅读。
+- 背景纹理、光晕和渐变不得干扰真实控件和状态识别。
+- 装饰层不得覆盖 `iv_video`、`iv_video_stream` 或任何真实视频 ImageView。
+- 每个页面不得自行发明不同透明度；必须使用本文件定义的 night Token。
+- Android minSdk 26 必须可构建运行。
