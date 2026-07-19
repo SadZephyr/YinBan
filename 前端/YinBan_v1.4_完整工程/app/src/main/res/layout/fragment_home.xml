@@ -45,11 +45,14 @@
                     android:background="@drawable/yb_home_logo_orb">
 
                     <ImageView
+                        android:id="@+id/iv_xiaoyinghuo"
                         android:layout_width="96dp"
                         android:layout_height="96dp"
                         android:layout_gravity="center"
                         android:adjustViewBounds="true"
-                        android:contentDescription="@null"
+                        android:clickable="true"
+                        android:contentDescription="小影火"
+                        android:focusable="true"
                         android:scaleType="centerInside"
                         android:src="@drawable/yb_xiaoyinghuo_idle" />
                 </FrameLayout>
