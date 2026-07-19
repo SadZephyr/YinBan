@@ -13,6 +13,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
 import com.yinban.ai.R
@@ -48,6 +49,7 @@ class ChatActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityChatBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        configureChatVisuals()
 
         myRole = intent.getStringExtra(EXTRA_ROLE) ?: "patient"
         chatMode = intent.getStringExtra(EXTRA_MODE) ?: "manual"
@@ -95,12 +97,30 @@ class ChatActivity : AppCompatActivity() {
         val peerName = intent.getStringExtra(EXTRA_PEER_NAME)
             ?: if (myRole == "patient") "监护人" else "患者"
         binding.tvChatPeerName.text = peerName
+        binding.tvChatPeerName.setTextColor(ContextCompat.getColor(this, R.color.yb_color_night_text_secondary))
     }
 
     private fun setupAiMode() {
-        binding.tvChatPeerName.text = "🤖 在线"
-        binding.tvChatPeerName.setTextColor(ContextCompat.getColor(this, R.color.status_online_text))
+        binding.tvChatPeerName.text = if (wsManager.isConnected()) "小影火 · 在线" else "小影火 · 直连"
+        binding.tvChatPeerName.setTextColor(ContextCompat.getColor(this, R.color.yb_color_night_text_secondary))
         initTts()
+    }
+
+    private fun configureChatVisuals() {
+        val nightDeep = ContextCompat.getColor(this, R.color.yb_color_night_background_deep)
+        window.statusBarColor = nightDeep
+        window.navigationBarColor = nightDeep
+        WindowInsetsControllerCompat(window, window.decorView).apply {
+            isAppearanceLightStatusBars = false
+            isAppearanceLightNavigationBars = false
+        }
+        binding.etChatInput.setTextColor(ContextCompat.getColor(this, R.color.yb_color_night_text_primary))
+        binding.etChatInput.setHintTextColor(ContextCompat.getColor(this, R.color.yb_color_night_text_muted))
+        binding.btnChatBack.text = ""
+        binding.btnSendMessage.text = ""
+        binding.btnVoiceInput.text = ""
+        updateVoiceButtonVisual(false)
+        updateSendButtonVisual(binding.btnSendMessage.isEnabled)
     }
 
     private fun initTts() {
@@ -124,6 +144,8 @@ class ChatActivity : AppCompatActivity() {
             binding.btnSendMessage.isEnabled = true
             binding.btnVoiceInput.isEnabled = true
             binding.tvOfflineBanner.visibility = View.GONE
+            updateVoiceButtonVisual(isVoiceRecording)
+            updateSendButtonVisual(binding.btnSendMessage.isEnabled)
             return
         }
         // 人工模式：依赖 WebSocket
@@ -132,6 +154,8 @@ class ChatActivity : AppCompatActivity() {
         binding.btnVoiceInput.isEnabled = connected
         binding.tvOfflineBanner.visibility = if (connected) View.GONE else View.VISIBLE
         binding.etChatInput.hint = if (connected) "输入消息..." else "离线模式，暂不可用"
+        updateVoiceButtonVisual(isVoiceRecording)
+        updateSendButtonVisual(binding.btnSendMessage.isEnabled)
         if (!connected) {
             binding.root.announceForAccessibility("连接已断开，对话功能暂不可用")
         }
@@ -154,14 +178,14 @@ class ChatActivity : AppCompatActivity() {
         override fun onConnectionStateChanged(connected: Boolean) {
             runOnUiThread {
                 binding.tvChatPeerName.text = if (chatMode == "ai") {
-                    if (connected) "🤖 在线 · 小影火" else "🤖 小影火 · 直连"
+                    if (connected) "小影火 · 在线" else "小影火 · 直连"
                 } else {
-                    if (connected) peerNameBiz else "🔴 离线"
+                    if (connected) peerNameBiz else "离线"
                 }
-                if (chatMode == "ai") {
-                    binding.tvChatPeerName.setTextColor(
-                        getColor(if (connected) R.color.status_online_text else R.color.primary))
-                }
+                binding.tvChatPeerName.setTextColor(ContextCompat.getColor(
+                    this@ChatActivity,
+                    if (connected || chatMode == "ai") R.color.yb_color_night_text_secondary
+                    else R.color.yb_color_night_text_muted))
                 updateOfflineState(connected)
             }
         }
@@ -303,13 +327,13 @@ class ChatActivity : AppCompatActivity() {
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
                 isVoiceRecording = true
-                binding.btnVoiceInput.text = "🔴"
+                updateVoiceButtonVisual(true)
                 Toast.makeText(this, "🎤 录音中...", Toast.LENGTH_SHORT).show()
             }
             MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
                 if (isVoiceRecording) {
                     isVoiceRecording = false
-                    binding.btnVoiceInput.text = "🎤"
+                    updateVoiceButtonVisual(false)
                     if (chatMode == "ai") {
                         binding.etChatInput.setText("你好")
                         sendText()
@@ -324,6 +348,25 @@ class ChatActivity : AppCompatActivity() {
             }
         }
         return true
+    }
+
+    private fun updateVoiceButtonVisual(recording: Boolean) {
+        binding.btnVoiceInput.text = ""
+        binding.btnVoiceInput.setIconResource(
+            if (recording) R.drawable.yb_ic_chat_voice_active else R.drawable.yb_ic_chat_voice)
+        binding.btnVoiceInput.setIconTintResource(
+            if (recording) R.color.yb_color_status_warning else R.color.yb_color_night_text_secondary)
+        binding.btnVoiceInput.alpha = if (binding.btnVoiceInput.isEnabled) 1f else 0.42f
+        binding.btnVoiceInput.contentDescription =
+            if (recording) "停止语音输入" else "语音输入"
+    }
+
+    private fun updateSendButtonVisual(enabled: Boolean) {
+        binding.btnSendMessage.text = ""
+        binding.btnSendMessage.setIconResource(R.drawable.yb_ic_chat_send)
+        binding.btnSendMessage.setIconTintResource(
+            if (enabled) R.color.yb_color_night_text_primary else R.color.yb_color_night_text_muted)
+        binding.btnSendMessage.alpha = if (enabled) 1f else 0.42f
     }
 
     private fun scrollToBottom() {

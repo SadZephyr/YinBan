@@ -39,6 +39,7 @@ class ChatMessageAdapter(
 ) : RecyclerView.Adapter<ChatMessageAdapter.ViewHolder>() {
 
     private val messages = mutableListOf<ChatMessage>()
+    private val sideInset = (24 * context.resources.displayMetrics.density).toInt()
 
     inner class ViewHolder(val binding: ItemChatMessageBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -64,27 +65,31 @@ class ChatMessageAdapter(
         when (msg) {
             is ChatMessage.SelfMessage -> {
                 tv.text = msg.content
-                tv.setTextColor(ContextCompat.getColor(context, R.color.on_primary))
-                tv.background = ContextCompat.getDrawable(context, R.drawable.bg_chat_bubble_self)
+                tv.setTextColor(ContextCompat.getColor(context, R.color.yb_color_night_text_primary))
+                tv.background = ContextCompat.getDrawable(context, R.drawable.yb_night_bg_chat_self)
                 params.gravity = Gravity.END
+                params.setMargins(sideInset, 0, 0, 0)
             }
             is ChatMessage.PeerMessage -> {
                 tv.text = msg.content
-                tv.setTextColor(ContextCompat.getColor(context, R.color.text_primary))
-                tv.background = ContextCompat.getDrawable(context, R.drawable.bg_chat_bubble_peer)
+                tv.setTextColor(ContextCompat.getColor(context, R.color.yb_color_night_text_primary))
+                tv.background = ContextCompat.getDrawable(context, R.drawable.yb_night_bg_chat_peer)
                 params.gravity = Gravity.START
+                params.setMargins(0, 0, sideInset, 0)
             }
             is ChatMessage.AiMessage -> {
                 tv.text = msg.content
-                tv.setTextColor(ContextCompat.getColor(context, R.color.text_primary))
-                tv.background = ContextCompat.getDrawable(context, R.drawable.bg_message_bubble)
+                tv.setTextColor(ContextCompat.getColor(context, R.color.yb_color_night_text_primary))
+                tv.background = ContextCompat.getDrawable(context, R.drawable.yb_night_bg_chat_peer)
                 params.gravity = Gravity.START
+                params.setMargins(0, 0, sideInset, 0)
             }
             is ChatMessage.ThinkingIndicator -> {
                 tv.text = msg.content
-                tv.setTextColor(ContextCompat.getColor(context, R.color.text_secondary))
+                tv.setTextColor(ContextCompat.getColor(context, R.color.yb_color_night_text_muted))
                 tv.background = null
                 params.gravity = Gravity.START
+                params.setMargins(0, 0, sideInset, 0)
             }
         }
         tv.layoutParams = params

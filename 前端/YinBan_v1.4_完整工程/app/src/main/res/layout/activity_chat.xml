@@ -5,50 +5,76 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/background">
+    android:background="@drawable/yb_night_bg_page">
 
     <!-- 标题栏 -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="64dp"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:background="@color/surface"
-        android:elevation="1dp"
-        android:paddingStart="8dp" android:paddingEnd="16dp">
+        android:background="@drawable/yb_chat_bg_top_bar"
+        android:paddingStart="12dp"
+        android:paddingEnd="20dp">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_chat_back"
-            android:layout_width="40dp" android:layout_height="40dp"
-            android:text="←" android:textSize="20sp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:text=""
             android:contentDescription="返回"
-            app:cornerRadius="20dp"
-            android:insetTop="0dp" android:insetBottom="0dp" android:padding="0dp"
+            app:cornerRadius="24dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:padding="0dp"
             style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:textColor="@color/text_primary" />
+            app:backgroundTint="@color/yb_color_night_surface"
+            app:icon="@drawable/yb_ic_chat_back"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:iconTint="@color/yb_color_night_text_primary" />
 
         <TextView
-            android:layout_width="0dp" android:layout_height="wrap_content"
-            android:layout_weight="1" android:text="消息"
-            android:textSize="18sp" android:textColor="@color/text_primary"
-            android:fontFamily="sans-serif-medium" android:layout_marginStart="4dp" />
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="12dp"
+            android:text="消息"
+            android:textSize="20sp"
+            android:textColor="@color/yb_color_night_text_primary"
+            android:fontFamily="sans-serif-medium"
+            android:singleLine="true"
+            android:ellipsize="end" />
 
         <TextView
             android:id="@+id/tv_chat_peer_name"
-            android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="对方" android:textSize="12sp"
-            android:textColor="@color/text_secondary" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="168dp"
+            android:text="对方"
+            android:textSize="13sp"
+            android:textColor="@color/yb_color_night_text_secondary"
+            android:fontFamily="sans-serif-medium"
+            android:singleLine="true"
+            android:ellipsize="end" />
     </LinearLayout>
 
     <!-- 离线提示条 -->
     <TextView
         android:id="@+id/tv_offline_banner"
-        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="20dp"
         android:text="离线模式，对话功能不可用"
-        android:textSize="12sp" android:textColor="@color/text_secondary"
-        android:gravity="center" android:padding="8dp"
+        android:textSize="13sp"
+        android:textColor="@color/yb_color_night_text_secondary"
+        android:gravity="center"
+        android:paddingHorizontal="14dp"
+        android:paddingVertical="10dp"
         android:visibility="gone"
-        android:background="@color/status_disconnected_bg"
+        android:background="@drawable/yb_chat_bg_offline_banner"
         android:contentDescription="当前处于离线状态" />
 
     <!-- 消息列表 -->
@@ -58,8 +84,11 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:clipToPadding="false"
-        android:paddingHorizontal="8dp"
-        android:paddingVertical="6dp"
+        android:paddingStart="8dp"
+        android:paddingTop="18dp"
+        android:paddingEnd="8dp"
+        android:paddingBottom="18dp"
+        android:scrollbarStyle="outsideOverlay"
         android:contentDescription="消息列表" />
 
     <!-- 输入栏 -->
@@ -67,41 +96,64 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingHorizontal="10dp"
-        android:paddingVertical="8dp"
+        android:paddingStart="16dp"
+        android:paddingTop="12dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="16dp"
         android:gravity="center_vertical"
-        android:background="@color/surface"
-        android:elevation="2dp">
+        android:background="@drawable/yb_chat_bg_input_bar">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_voice_input"
-            android:layout_width="44dp" android:layout_height="44dp"
-            android:text="🎤" android:textSize="18sp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:text=""
             android:contentDescription="语音输入"
-            app:cornerRadius="22dp" android:insetTop="0dp"
-            android:insetBottom="0dp" android:padding="0dp"
-            app:backgroundTint="@color/surface_variant"
-            app:strokeColor="@color/primary_container" app:strokeWidth="1dp" />
+            app:cornerRadius="24dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:padding="0dp"
+            app:backgroundTint="@color/yb_color_night_surface"
+            app:icon="@drawable/yb_ic_chat_voice"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:iconTint="@color/yb_color_night_text_secondary"
+            app:strokeColor="@color/yb_color_night_border_strong"
+            app:strokeWidth="1dp" />
 
         <EditText
             android:id="@+id/et_chat_input"
-            android:layout_width="0dp" android:layout_height="wrap_content"
-            android:layout_weight="1" android:layout_marginHorizontal="8dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:layout_weight="1"
+            android:layout_marginHorizontal="10dp"
             android:hint="输入消息..."
-            android:textSize="14sp" android:maxLines="4"
+            android:textSize="15sp"
+            android:textColor="@color/yb_color_night_text_primary"
+            android:textColorHint="@color/yb_color_night_text_muted"
+            android:maxLines="4"
+            android:minLines="1"
             android:inputType="textMultiLine"
             android:contentDescription="消息输入框"
-            android:background="@drawable/bg_chat_input"
-            android:paddingHorizontal="16dp" android:paddingVertical="10dp" />
+            android:background="@drawable/yb_chat_bg_input_field"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="10dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_send_message"
-            android:layout_width="44dp" android:layout_height="44dp"
-            android:text="→" android:textSize="20sp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:text=""
             android:contentDescription="发送消息"
-            app:cornerRadius="22dp" android:insetTop="0dp"
-            android:insetBottom="0dp" android:padding="0dp"
-            app:backgroundTint="@color/primary"
-            android:textColor="@color/on_primary" />
+            app:cornerRadius="24dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:padding="0dp"
+            app:backgroundTint="@color/yb_color_primary"
+            app:icon="@drawable/yb_ic_chat_send"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:iconTint="@color/yb_color_night_text_primary" />
     </LinearLayout>
 </LinearLayout>
