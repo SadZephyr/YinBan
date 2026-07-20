@@ -15,6 +15,7 @@ import android.util.Log
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsControllerCompat
@@ -295,12 +296,26 @@ class PatientActivity : AppCompatActivity(),
     // ═══════════════════════════════════════════
 
     override fun onLogout() {
-        MaterialAlertDialogBuilder(this)
+        val dialog = MaterialAlertDialogBuilder(this)
             .setTitle("退出登录")
             .setMessage("确定要退出登录吗？退出后将断开连接。")
             .setPositiveButton("确定退出") { _, _ -> logout() }
             .setNegativeButton("取消", null)
             .show()
+        applyNightLogoutDialogStyle(dialog)
+    }
+
+    private fun applyNightLogoutDialogStyle(dialog: AlertDialog) {
+        val primaryText = ContextCompat.getColor(this, R.color.yb_color_night_text_primary)
+        val secondaryText = ContextCompat.getColor(this, R.color.yb_color_night_text_secondary)
+        val cancelAction = ContextCompat.getColor(this, R.color.yb_color_primary)
+        val dangerAction = ContextCompat.getColor(this, R.color.yb_color_status_danger)
+
+        dialog.window?.setBackgroundDrawableResource(R.drawable.yb_me_bg_dialog)
+        dialog.findViewById<TextView>(MaterialR.id.alertTitle)?.setTextColor(primaryText)
+        dialog.findViewById<TextView>(android.R.id.message)?.setTextColor(secondaryText)
+        dialog.getButton(AlertDialog.BUTTON_NEGATIVE)?.setTextColor(cancelAction)
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE)?.setTextColor(dangerAction)
     }
 
     // ═══════════════════════════════════════════

@@ -7,16 +7,21 @@ import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Path
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.yinban.ai.R
 import com.yinban.ai.databinding.FragmentMeBinding
 import com.yinban.ai.storage.PreferenceManager
 import java.io.File
@@ -137,7 +142,7 @@ class MeFragment : Fragment() {
             input.setText(binding.tvProfileName.text)
             input.maxLines = 1
             input.setPadding(32, 16, 32, 16)
-            MaterialAlertDialogBuilder(requireContext())
+            val dialog = MaterialAlertDialogBuilder(requireContext())
                 .setTitle("编辑昵称")
                 .setView(input)
                 .setPositiveButton("保存") { _, _ ->
@@ -149,6 +154,7 @@ class MeFragment : Fragment() {
                 }
                 .setNegativeButton("取消", null)
                 .show()
+            applyNightDialogStyle(dialog, input)
         }
 
         // ── 开关 ──
@@ -166,7 +172,7 @@ class MeFragment : Fragment() {
             input.setText(pm.deepseekApiKey)
             input.maxLines = 1
             input.setPadding(32, 16, 32, 16)
-            MaterialAlertDialogBuilder(requireContext())
+            val dialog = MaterialAlertDialogBuilder(requireContext())
                 .setTitle("DeepSeek API Key")
                 .setView(input)
                 .setPositiveButton("保存") { _, _ ->
@@ -185,6 +191,7 @@ class MeFragment : Fragment() {
                 }
                 .setNegativeButton("取消", null)
                 .show()
+            applyNightDialogStyle(dialog, input)
         }
 
         // ── 退出 ──
@@ -197,7 +204,7 @@ class MeFragment : Fragment() {
 
     private fun showAvatarPickerDialog(pm: PreferenceManager) {
         val items = arrayOf("选择 emoji 头像", "从相册选择图片")
-        MaterialAlertDialogBuilder(requireContext())
+        val dialog = MaterialAlertDialogBuilder(requireContext())
             .setTitle("更换头像")
             .setItems(items) { _, which ->
                 when (which) {
@@ -214,6 +221,54 @@ class MeFragment : Fragment() {
             }
             .setNegativeButton("取消", null)
             .show()
+        applyNightDialogStyle(dialog, styleList = true)
+    }
+
+    private fun applyNightDialogStyle(
+        dialog: AlertDialog,
+        input: EditText? = null,
+        styleList: Boolean = false
+    ) {
+        val ctx = requireContext()
+        val primaryText = ContextCompat.getColor(ctx, R.color.yb_color_night_text_primary)
+        val secondaryText = ContextCompat.getColor(ctx, R.color.yb_color_night_text_secondary)
+        val mutedText = ContextCompat.getColor(ctx, R.color.yb_color_night_text_muted)
+        val primaryAction = ContextCompat.getColor(ctx, R.color.yb_color_primary)
+        val border = ContextCompat.getColor(ctx, R.color.yb_color_night_border)
+
+        dialog.window?.setBackgroundDrawable(
+            ContextCompat.getDrawable(ctx, R.drawable.yb_me_bg_dialog)
+        )
+        dialog.findViewById<TextView>(com.google.android.material.R.id.alertTitle)
+            ?.setTextColor(primaryText)
+        dialog.findViewById<TextView>(android.R.id.message)
+            ?.setTextColor(secondaryText)
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE)?.setTextColor(primaryAction)
+        dialog.getButton(AlertDialog.BUTTON_NEGATIVE)?.setTextColor(secondaryText)
+        dialog.getButton(AlertDialog.BUTTON_NEUTRAL)?.setTextColor(primaryAction)
+
+        input?.apply {
+            background = ContextCompat.getDrawable(ctx, R.drawable.yb_me_bg_dialog_input)
+            setTextColor(primaryText)
+            setHintTextColor(mutedText)
+        }
+
+        if (styleList) {
+            dialog.listView?.apply {
+                divider = ColorDrawable(border)
+                dividerHeight = 1
+                setBackgroundColor(ContextCompat.getColor(ctx, android.R.color.transparent))
+                post {
+                    for (i in 0 until childCount) {
+                        (getChildAt(i) as? TextView)?.apply {
+                            setTextColor(primaryText)
+                            setHintTextColor(mutedText)
+                            minHeight = 56
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private fun showEmojiPicker(pm: PreferenceManager) {
